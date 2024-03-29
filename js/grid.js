@@ -28,17 +28,29 @@ class Grid {
                 let y = i * resolution;
                 stroke(0)
                 strokeWeight(.7)
-                if (this.visible.get(i, j)) {
-
-
+                if (this.visible.get(i, j) == 1) {
                     fill(255)
                     rect(x, y, resolution, resolution);
                     fill(0)
                     text(this.n_neibours.get(i, j), x + half_res, y + half_res)
-                    if (this.grid.get(i, j)) {
+                    if (this.grid.get(i, j) == 1) {
                         fill(0)
                         circle(x + half_res, y + half_res, resolution * 0.6);
                     }
+                } else if (this.visible.get(i, j) == 2) {
+                    if (this.visible.get(i, j) == 2) {
+                        fill(255, 0, 0,100);
+                        rect(x, y, resolution, resolution);
+                        fill(0);
+                        // textSize(20);
+                        text("🚩", x + half_res, y + half_res);
+                    }
+
+                } else {
+                    fill(0, 0, 0)
+                    stroke(255)
+                    rect(x, y, resolution, resolution);
+
                 }
             }
         }
@@ -48,7 +60,7 @@ class Grid {
         let x = col * resolution;
         let y = row * resolution;
         fill(0, 0, 0, 0);
-        stroke(0);
+        stroke(255, 0, 0);
         strokeWeight(2)
         rect(x, y, resolution, resolution);
     }
@@ -78,7 +90,11 @@ class Grid {
         this.is_running = true;
     }
     set_flag(row, col) {
-        this.visible.set(row, col, 2);
+        if (this.visible.get(row, col) == 0) {
+            this.visible.set(row, col, 2);
+        } else {
+            this.visible.set(row, col, 0);
+        }
         console.log("FLAG")
     }
     reset() {

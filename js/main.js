@@ -11,21 +11,36 @@ let is_running = true;
 
 let gameover_dom;
 let reset_btn;
-
+let flag_btn;
+let flag_mode;
 function setup() {
     createCanvas(400, 400);
     frameRate(30);
     cols = Math.floor(width / resolution);
     rows = Math.floor(height / resolution);
-    console.log(cols, rows)
     grid = new Grid(rows, cols);
+    flag_mode = false;
     nj.config.printThreshold = 100;
+
     reset_btn = document.getElementById("reset_btn")
+    flag_btn = document.getElementById("flag_btn")
     gameover_dom = document.querySelector(".gameover");
     reset_btn.addEventListener('click', function () {
         grid.reset();
         gameover_dom.style.display = "none";
     });
+    flag_btn.addEventListener('click', function () {
+        flag_mode = !flag_mode;
+        if (flag_mode) {
+            flag_btn.innerText = "Flag mode 🚩: ON"
+
+        } else {
+            flag_btn.innerText = "Flag mode 🚩: OFF"
+        }
+
+    });
+
+
 }
 function keyPressed() {
 
@@ -38,7 +53,6 @@ function keyPressed() {
 
 function mouseClicked() {
     if (mouseButton === RIGHT) {
-
         grid.set_flag(mouse_row, mouse_col)
     }
 }
@@ -54,19 +68,21 @@ function draw() {
     }
 
     if (mouseIsPressed & grid.is_running) {
-        if (mouseButton === LEFT) {
-            if (!(last_clicked_col === mouse_col && last_clicked_row === mouse_row)) {
+        if (!(last_clicked_col === mouse_col && last_clicked_row === mouse_row)) {
+            if (!(flag_mode)) {
                 grid.flip(mouse_row, mouse_col);
                 if (grid.is_running == false) {
                     gameover_dom.style.display = "block";
                 } else {
                     grid.flood_fill(mouse_row, mouse_col)
                 }
-                last_clicked_col = mouse_col;
-                last_clicked_row = mouse_row;
-            }
-        }
 
+            } else {
+                grid.set_flag(mouse_row, mouse_col)
+            }
+            last_clicked_col = mouse_col;
+            last_clicked_row = mouse_row;
+        }
     }
 }
 
