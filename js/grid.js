@@ -93,7 +93,7 @@ class Grid {
         if (this.visible.get(row, col) == 0) {
             this.visible.set(row, col, 2);
         } else {
-            this.visible.set(row, col, 0);
+            // this.visible.set(row, col, 0);
         }
         console.log("FLAG")
     }
