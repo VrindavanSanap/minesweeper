@@ -4,8 +4,6 @@ function conv2d(input, kernel) {
     let kx = kernel.shape[0];
     let ky = kernel.shape[1];
     let padded_input = nj.zeros([ix + (kx - 1) * 2, iy + (ky - 1) * 2]);
-
-    // Padding input
     padded_input.slice([kx - 1, kx - 1 + ix], [ky - 1, ky - 1 + iy]).assign(input, false)
     let out = nj.convolve(padded_input, kernel);
 
@@ -17,4 +15,3 @@ function get_n_neibours(grid) {
     let n_neibours = conv_prod.subtract(grid);
     return n_neibours
 }
-
