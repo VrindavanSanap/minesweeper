@@ -23,7 +23,8 @@ function setup() {
     flag_btn = document.getElementById("flag_btn")
     gameover_dom = document.querySelector(".gameover");
     win_msg_dom = document.getElementById("win_msg");
-
+    n_placed_dom = document.getElementById("flags_placed");
+    n_placed_dom.innerText = `0 / ${grid.n_mines} flags placed`
     reset_btn.addEventListener('click', function () {
         grid.reset();
         gameover_dom.style.display = "none";
@@ -66,14 +67,14 @@ function mouseClicked() {
             grid.set_flag(mouse_row, mouse_col)
         }
         if (grid.visible.subtract(1).multiply(-1).sum() == grid.n_mines) {
-            if (0==grid.visible.subtract(1).multiply(-1).subtract(grid.flags).sum()) {
+            if (0 == grid.visible.subtract(1).multiply(-1).subtract(grid.flags).sum()) {
                 gameover_dom.style.display = "block";
                 win_msg_dom.style.display = "block"
             }
 
         }
     }
-
+    n_placed_dom.innerText = `${grid.flags.sum()} / ${grid.n_mines} flags placed`
 }
 
 function draw() {
